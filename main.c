@@ -6,15 +6,22 @@
 #include <unistd.h>
 
 int main(){
-    int pf = open("paul.txt", O_RDONLY);
-    printf("%s\n", strerror(errno));
+    int pf = open("/dev/random", O_RDONLY);
+    if(errno != 0){
+        printf("%s\n", strerror(errno));
+    }
     // printf("%d\n", pf);
     // printf("%d\n", errno);
-    char buffer[100];
-    int b = read(3, buffer, 100);
+    int buffer[100];
+    int b = read(3, buffer, sizeof(int) * 10);
     printf("%d\n", b);
-    printf("%s\n", strerror(errno));
+    if (errno != 0){
+        printf("%s\n", strerror(errno));
+    }
 
-    printf("%s", buffer);
+    int i = 0;
+    for(; i < 10; i++){
+        printf("%d\n", buffer[i]);
+    }
     return 0;
 }
