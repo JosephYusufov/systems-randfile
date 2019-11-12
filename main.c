@@ -19,9 +19,13 @@ int main(){
         printf("%s\n", strerror(errno));
     }
 
-    int i = 0;
-    for(; i < 10; i++){
-        printf("%d\n", buffer[i]);
+    // int i = 0;
+    // for(; i < 10; i++){
+    //     printf("%d\n", buffer[i]);
+    // }
+    int c = close(2);
+    if (errno != 0){
+        printf("%s\n", strerror(errno));
     }
     return 0;
 }
