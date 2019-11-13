@@ -30,7 +30,7 @@ int main(){
     // printf("%d\n", rand_num());
 
     // Populating into numbers array using rand_num function
-    printf("First set of random numbers in array \"numbers[]\"");
+    printf("First set of random numbers in array \"numbers[]\"\n");
     int numbers[10];
     int i = 0;
     for(; i < 10; i++){
@@ -39,21 +39,26 @@ int main(){
     }
 
     // Writing into numbers_file file
-    int fd = open("numbers_file", O_CREAT | O_WRONLY | O_EXCL, 0x777);
+    int fd = open("numbers_file", O_CREAT, 0x777);
     if (errno != 0){
         printf("%s\n", strerror(errno));
     }
 
-    lseek(fd, 0, SEEK_SET);
-    write(fd, numbers, sizeof(numbers));
+    lseek(3, 0, SEEK_SET);
     printf("Writing to file \"numbers_file\"\n");
     if (errno != 0){
-        printf("%s\n", strerror(errno));
+        printf("SETTING CURSOR: %s\n", strerror(errno));
     }
 
-    close(fd);
+    write(3, numbers, sizeof(numbers));
+    printf("Writing to file \"numbers_file\"\n");
     if (errno != 0){
-        printf("%s\n", strerror(errno));
+        printf("WRITING TO FILE: %s\n", strerror(errno));
+    }
+
+    close(3);
+    if (errno != 0){
+        printf("FIRST CLOSE: %s\n", strerror(errno));
     }
 
     // Reading numbers from file
@@ -61,16 +66,21 @@ int main(){
     if (errno != 0){
         printf("%s\n", strerror(errno));
     }
-    lseek(fd, 0, SEEK_SET);
+    lseek(3, 0, SEEK_SET);
 
 
     int numbers_from_file[10];
-    int r = read(fd, numbers_from_file, sizeof(numbers_from_file));
+    int r = read(3, numbers_from_file, 10);
     if (errno != 0){
         printf("%s\n", strerror(errno));
     }
 
-    printf("Printing numbers from file \"numbers_file\"");
+    close(3);
+    if (errno != 0){
+        printf("%s\n", strerror(errno));
+    }
+
+    printf("Printing numbers from file \"numbers_file\"\n");
     i = 0;
     for(; i < 10; i++){
         printf("\trandom %d: %d\n", i, numbers_from_file[i]);
