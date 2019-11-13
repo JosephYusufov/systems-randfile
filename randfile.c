@@ -39,24 +39,18 @@ int main(){
     }
 
     // Writing into numbers_file file
-    int fd = open("numbers_file", O_CREAT, 0x777);
+    int fd = open("numbers_file", O_CREAT | O_WRONLY, 0x777);
     if (errno != 0){
         printf("%s\n", strerror(errno));
     }
 
-    lseek(3, 0, SEEK_SET);
-    printf("Writing to file \"numbers_file\"\n");
-    if (errno != 0){
-        printf("SETTING CURSOR: %s\n", strerror(errno));
-    }
-
-    write(3, numbers, sizeof(numbers));
+    write(fd, numbers, sizeof(int) * 10);
     printf("Writing to file \"numbers_file\"\n");
     if (errno != 0){
         printf("WRITING TO FILE: %s\n", strerror(errno));
     }
 
-    close(3);
+    close(fd);
     if (errno != 0){
         printf("FIRST CLOSE: %s\n", strerror(errno));
     }
@@ -66,16 +60,14 @@ int main(){
     if (errno != 0){
         printf("%s\n", strerror(errno));
     }
-    lseek(3, 0, SEEK_SET);
-
 
     int numbers_from_file[10];
-    int r = read(3, numbers_from_file, 10);
+    int r = read(fd, numbers_from_file, sizeof(int) * 10);
     if (errno != 0){
         printf("%s\n", strerror(errno));
     }
 
-    close(3);
+    close(fd);
     if (errno != 0){
         printf("%s\n", strerror(errno));
     }
